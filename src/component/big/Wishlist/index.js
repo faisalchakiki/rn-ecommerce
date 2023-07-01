@@ -24,7 +24,6 @@ const WishlistProduct = ({navigation}) => {
     const filteredData = dataProducts.filter((item) => !data.some((existingItem) => existingItem.id === item.id));
     setData([...data, ...filteredData]);
     setLimit(limit + 6);
-    // console.log(data)
   };
 
   return (

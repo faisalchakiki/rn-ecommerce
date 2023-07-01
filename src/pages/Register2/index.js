@@ -1,19 +1,29 @@
 import { Pressable, ScrollView, StyleSheet, TextInput, View } from 'react-native'
 import { Text } from 'react-native'
-import { Image } from 'react-native'
 import React from 'react'
-import { ArrowSubmit, Ilustration, RegisterImage2 } from '../../assets'
+import { ArrowSubmit,RegisterImage2 } from '../../assets'
 import { colors } from '../../utils/colors'
 import { responsiveHeight, responsiveWidht } from '../../utils/utils'
-import { InputText } from '../../component'
 import { Picker } from '@react-native-picker/picker'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchListProvince, fetchListCities } from '../../redux/features/rajaongkir/rajaongkirSlice'
 
 const Register2 = ({ navigation }) => {
-  const [selectedProvinsi, setProvinsi] = React.useState('')
+  const dispatch = useDispatch()
+  React.useEffect(() => {
+    dispatch(fetchListProvince());
+  }, [])
+  const rajaongkir = useSelector((state) => state.rajaongkir)
+
+  const [selectedProvinsi, setProvinsi] = React.useState(0)
   const [selectedCity, setCity] = React.useState('')
   const [text, onChangeText] = React.useState('');
-  const citys = ['Jakarta', 'Tegal', 'Semarang', 'Cirebon', 'Bandung']
-  const provinsiSelection = ['Jawa Tengah', 'Jawa Timur', 'Jawa Barat', 'Banten', 'Kalimantan']
+
+  const changeProvince = (province_id) => {
+    setProvinsi(province_id)
+    dispatch(fetchListCities(province_id));
+  }
+
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.containerMain}>
@@ -41,20 +51,20 @@ const Register2 = ({ navigation }) => {
               onChangeText={onChangeText}
               value={text}
               placeholder='Alamat'
-            // keyboardType={keyboard === 'number' ? "numeric" : 'default'}
             />
           </View>
           <View style={styles.wrapperInput}>
             <Text style={styles.textInput}>Province :</Text>
             <View style={styles.wrapperPicker}>
               <Picker
+                enabled={rajaongkir.isLoading === false ? true : false}
                 selectedValue={selectedProvinsi}
-                onValueChange={(itemValue, itemIndex) =>
-                  setProvinsi(itemValue)
+                onValueChange={(itemValue) =>
+                  changeProvince(itemValue)
                 }>
                 <Picker.Item label="-- Choose --" value="" enabled={false} />
-                {provinsiSelection?.map((provinsi,index) => (
-                  <Picker.Item key={index} label={provinsi} value={provinsi} />
+                {rajaongkir.provinces?.map((data,index) => (
+                  <Picker.Item key={index} label={data.province} value={data.province_id} />
                 ))}
               </Picker>
             </View>
@@ -63,13 +73,14 @@ const Register2 = ({ navigation }) => {
             <Text style={styles.textInput}>City/Regency :</Text>
             <View style={styles.wrapperPicker}>
               <Picker
+                enabled={rajaongkir.isLoading === false && selectedProvinsi !== 0 ? true : false}
                 selectedValue={selectedCity}
-                onValueChange={(itemValue, itemIndex) =>
+                onValueChange={(itemValue) =>
                   setCity(itemValue)
                 }>
                 <Picker.Item label="-- Choose --" value="" enabled={false} />
-                {citys?.map((city,index) => (
-                  <Picker.Item key={index} label={city} value={city} />
+                {rajaongkir.isLoading === false && rajaongkir.cities?.map((city,index) => (
+                  <Picker.Item key={index} label={`${city.type} ${city.city_name}`} value={city.city_id} />
                 ))}
               </Picker>
             </View>

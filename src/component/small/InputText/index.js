@@ -3,9 +3,7 @@ import React from 'react'
 import { responsiveHeight } from '../../../utils/utils';
 import { colors } from '../../../utils/colors';
 
-const InputText = ({ title, type, keyboard, value = "" }) => {
-  const [text, onChangeText] = React.useState(`${value}`);
-
+const InputText = ({ title, type, keyboard, onChangeText, value = ''}) => {
   return (
     <View style={styles.wrapperInput}>
       <Text style={styles.textInput}>{title} :</Text>
@@ -13,7 +11,7 @@ const InputText = ({ title, type, keyboard, value = "" }) => {
         style={styles.input}
         secureTextEntry={type === 'password' ? true : false}
         onChangeText={onChangeText}
-        value={text}
+        value={value}
         placeholder={title}
         keyboardType={keyboard === 'number' ? "numeric" : 'default'}
       />

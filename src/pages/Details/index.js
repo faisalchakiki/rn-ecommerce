@@ -10,8 +10,6 @@ import StarRating from 'react-native-star-rating'
 import { ColorsSection, Quantity, Sizes } from '../../component'
 
 const Details = ({ navigation, route }) => {
-  const [selectedColor, setColor] = useState('')
-
   const swiperProductImage = {
     // autoplay: true,
     showsPagination: true,
@@ -20,33 +18,7 @@ const Details = ({ navigation, route }) => {
     loop: false
   };
 
-
-  const colorSelection = [{
-    name: 'Blue',
-    color: '#58C5FF'
-  }, {
-    name: 'Black',
-    color: '#000000'
-  }, {
-    name: 'Red',
-    color: '#FF0606'
-  },
-  {
-    name: 'Green',
-    color: '#3C9F0E'
-  },
-  {
-    name: 'Orange',
-    color: '#E17C1E'
-  },
-  {
-    name: 'Silver',
-    color: '#E5E5E5'
-  },
-  ]
-
   const product = route.params.product;
-  console.log(product)
   return (
     <View style={styles.container} >
       <ScrollView showsVerticalScrollIndicator={false} style={styles.container}

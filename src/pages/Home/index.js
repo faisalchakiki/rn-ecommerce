@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { Banner, Categories, HeaderComponent, RecentProduct } from '../../component/big'
 import { colors } from '../../utils/colors'

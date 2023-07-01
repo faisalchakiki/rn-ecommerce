@@ -1,2 +1,2 @@
-exports * from './colors'
-exports * from './utils'
+export * from './colors'
+export * from './utils'
